@@ -11,6 +11,9 @@ const client = new Client({
     ]
 });
 
+const roleId = config.roleId;
+const channelId = config.channelId;
+
 client.once("ready", () => {
     console.log(`Logged in as:`, client.user.tag);
 });
@@ -47,7 +50,6 @@ function randomString() {
 client.on("interactionCreate", async (interaction) => {
     if (interaction.customId === "verifyBtn") {
         const member = interaction.member;
-        const roleId = config.roleId;
         const hasRole = member.roles.cache.some(role => role.id === roleId);
         if (hasRole) {
             return await interaction.reply({
@@ -71,11 +73,9 @@ client.on("interactionCreate", async (interaction) => {
         client.on("interactionCreate", async (modalInteraction) => {
             if (!modalInteraction.isModalSubmit()) return;
             if (modalInteraction.customId = randomWord) {
-                const roleId = config.roleId;
                 const member = modalInteraction.guild.members.cache.get(modalInteraction.user.id);
                 const userInput = modalInteraction.fields.getTextInputValue("textInput");
                 if (userInput === randomWord) {
-                    const channelId = config.channelId;
                     const channel = client.channels.cache.get(channelId);
                     await modalInteraction.reply({
                         content: `✓ 認証が完了しました。\n**${modalInteraction.guild.name}**へようこそ！`,
